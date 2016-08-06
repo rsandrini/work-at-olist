@@ -1,7 +1,11 @@
+import os
+
 from django.core.exceptions import ValidationError
+from django.core.management import call_command, CommandError
 from django.db import IntegrityError
 from django.test import TestCase
-from .models import Channel, Product
+from django.utils.six import StringIO
+from .models import Channel, Category
 
 
 class ChannelTestCase(TestCase):
@@ -13,29 +17,50 @@ class ChannelTestCase(TestCase):
         channel = Channel.objects.first()
         self.assertEqual(channel.__str__(), "Canal Test")
 
-    def test_empty_name(self):
-        with self.assertRaises(ValidationError):
-            Channel.objects.create()
+    # def test_empty_name(self):
+    #     with self.assertRaises(ValidationError):
+    #         Channel.objects.create()
 
 
-class ProductTestCase(TestCase):
+class CategoryTestCase(TestCase):
     def setUp(self):
         Channel.objects.create(name="Canal Test")
-        product_1 = Product.objects.create(name="test1", channel=Channel.objects.first())
-        product_2 = Product.objects.create(name="test2", channel=Channel.objects.first())
-        Product.objects.create(name="test1.1", sub_product=product_1, channel=Channel.objects.first())
-        product_2_1 = Product.objects.create(name="test2.1", sub_product=product_2, channel=Channel.objects.first())
-        Product.objects.create(name="test2.1.1", sub_product=product_2_1, channel=Channel.objects.first())
+        category_1 = Category.objects.create(name="test1", channel=Channel.objects.first())
+        category_2 = Category.objects.create(name="test2", channel=Channel.objects.first())
+        Category.objects.create(name="test1.1", sub_category=category_1, channel=Channel.objects.first())
+        category_2_1 = Category.objects.create(name="test2.1", sub_category=category_2, channel=Channel.objects.first())
+        Category.objects.create(name="test2.1.1", sub_category=category_2_1, channel=Channel.objects.first())
 
     def test_name_str(self):
-        product = Product.objects.first()
-        self.assertEqual(product.__str__(), "test1")
+        category = Category.objects.first()
+        self.assertEqual(category.__str__(), "test1")
 
-    def test_sub_product(self):
-        product = Product.objects.get(name="test1.1")
-        sub_product = Product.objects.get(name="test1")
-        self.assertEqual(product.sub_product, sub_product)
+    def test_sub_category(self):
+        category = Category.objects.get(name="test1.1")
+        sub_category = Category.objects.get(name="test1")
+        self.assertEqual(category.sub_category, sub_category)
 
     def test_empty_name(self):
         with self.assertRaises(IntegrityError):
-            Product.objects.create()
+            Category.objects.create()
+
+
+class ImportCommandtest(TestCase):
+    path = os.path.dirname(os.path.abspath(__file__))
+
+    def test_command_output_without_parameters(self):
+        out = StringIO()
+        with self.assertRaises(CommandError):
+            call_command('importcategories', stdout=out)
+
+    def test_command_with_invalid_file_path_output(self):
+        out = StringIO()
+        with self.assertRaises(Exception):
+            call_command('importcategories', 'walmart', 'pasta/arquivo.csv', stdout=out)
+            self.assertIn('File does not exists', out.getvalue())
+
+    def test_command_output(self):
+        out = StringIO()
+        call_command('importcategories', 'walmart',
+                     '%s/test_file/olist.csv' % self.path, stdout=out)
+        self.assertIn('ok', out.getvalue())

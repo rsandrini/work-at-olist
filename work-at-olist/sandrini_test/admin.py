@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from .models import Channel, Product
+from .models import Channel, Category
 
 
-class ProductInline(admin.TabularInline):
-    model = Product
+class CategoryInline(admin.TabularInline):
+    model = Category
     extra = 1
 
 
 class ChannelAdmin(admin.ModelAdmin):
-    inlines = (ProductInline, )
+    inlines = (CategoryInline, )
     search_fields = ['name']
 
 
