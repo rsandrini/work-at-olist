@@ -3,6 +3,7 @@ import os
 from django.core.management.base import BaseCommand, CommandError
 from ._private import CsvImporter
 
+
 class Command(BaseCommand):
     help = "import the channels categories from a CSV"
 
@@ -21,8 +22,8 @@ class Command(BaseCommand):
             raise Exception("File does not exists")
         else:
 
-            csv = CsvImporter(file)
-            csv.read()
+            csv = CsvImporter(channel, file)
+            csv.process()
             self.stdout.write("ok")
 
 

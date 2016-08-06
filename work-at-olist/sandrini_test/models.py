@@ -31,13 +31,13 @@ class Channel(models.Model):
 class Category(models.Model):
     name = models.CharField("Nome da categoria", max_length=255, blank=False, null=False)
     channel = models.ForeignKey(Channel, verbose_name="Canal")
-    sub_category = models.ForeignKey("Category", verbose_name="Sub Categoria", blank=True, null=True)
+    top_category = models.ForeignKey("Category", verbose_name="Top Categoria", blank=True, null=True)
 
     class Meta:
         app_label = 'sandrini_test'
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
-        unique_together = (('channel', 'name'),)
+        unique_together = (('channel', 'name', 'top_category'),)
 
     def __str__(self):
         return self.name
