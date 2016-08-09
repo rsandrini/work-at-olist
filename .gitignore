@@ -88,3 +88,4 @@ target/
 ## JIRA plugin
 atlassian-ide-plugin.xml
 venv
+heroku.env
