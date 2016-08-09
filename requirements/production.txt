@@ -11,3 +11,4 @@ requests==2.10.0
 simplejson==3.8.2
 uritemplate==0.6
 whitenoise==3.2
+unipath==1.1
