@@ -1,7 +1,7 @@
 coreapi==1.32.0
 dj-database-url==0.4.1
 Django==1.10
-django-rest-swagger==2.0.3
+django-rest-swagger==0.3.10
 djangorestframework==3.4.3
 itypes==1.1.0
 openapi-codec==1.0.0
