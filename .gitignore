@@ -89,3 +89,4 @@ target/
 atlassian-ide-plugin.xml
 venv
 heroku.env
+static

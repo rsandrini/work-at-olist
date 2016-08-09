@@ -113,14 +113,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).parent.parent
 
-STATIC_ROOT = PROJECT_ROOT.child('staticfiles')
 STATIC_URL = '/static/'
+STATIC_ROOT = PROJECT_ROOT.child('static')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    PROJECT_ROOT.child('static'),
+    PROJECT_ROOT.child('assets'),
 )
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
