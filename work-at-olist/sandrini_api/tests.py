@@ -27,53 +27,52 @@ class ApiTestCase(TestCase):
 
     def test_url_channel_details_status_code(self):
         c = Client()
-        response = c.get('/api/v1/channels/1/')
+        response = c.get('/api/v1/channels/canal-test/')
         self.assertEqual(response.status_code, 200)
 
     def test_url_category_details_status_code(self):
         c = Client()
-        response = c.get('/api/v1/categories/1/')
+        response = c.get('/api/v1/categories/canal-test-test1/')
         self.assertEqual(response.status_code, 200)
 
     def test_url_channel_details_status_code_not_found(self):
         c = Client()
-        response = c.get('/api/v1/channels/10/')
+        response = c.get('/api/v1/channels/test999/')
         self.assertEqual(response.status_code, 404)
 
     def test_url_category_details_status_code_not_found(self):
         c = Client()
-        response = c.get('/api/v1/categories/50/')
+        response = c.get('/api/v1/categories/canal-not-found/')
         self.assertEqual(response.status_code, 404)
 
     def test_url_channel_details_response(self):
         c = Client()
-        response = c.get('/api/v1/channels/1/')
+        response = c.get('/api/v1/channels/canal-test/')
         self.assertEquals(response.json()['name'], "Canal Test")
         self.assertEquals(response.json()['categories'][0]['name'], "test1")
 
     def test_url_category_details_response(self):
         c = Client()
-        response = c.get('/api/v1/categories/1/')
+        response = c.get('/api/v1/categories/canal-test-test1/')
         self.assertEquals(response.json()['name'], 'test1')
         self.assertEquals(response.json()['sub_categories'][0]['name'], 'test1.1')
-        self.assertEquals(response.json()['sub_categories'][0]['top_category'], 'test1')
 
     def test_url_channel_total_response(self):
         c = Client()
         response = c.get('/api/v1/channels/')
-        self.assertEquals(len(response.json()), 2)
+        self.assertEquals(len(response.json()['results']), 2)
 
     def test_url_channel_detail_total_response(self):
         c = Client()
-        response = c.get('/api/v1/channels/1/')
-        self.assertEquals(len(response.json()), 2)
+        response = c.get('/api/v1/channels/canal-test/')
+        self.assertEquals(len(response.json()), 3)
 
     def test_url_category_total_response(self):
         c = Client()
         response = c.get('/api/v1/categories/')
-        self.assertEquals(len(response.json()), 2)
+        self.assertEquals(len(response.json()['results']), 2)
 
     def test_url_category_detail_total_response(self):
         c = Client()
-        response = c.get('/api/v1/categories/1/')
+        response = c.get('/api/v1/categories/canal-test-test1/')
         self.assertEquals(len(response.json()['sub_categories']), 1)

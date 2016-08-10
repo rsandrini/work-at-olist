@@ -12,7 +12,7 @@ class Command(BaseCommand):
         parser.add_argument('file')
 
     def handle(self, *args, **options):
-        channel = options['channel']
+        channel = options['channel'].lower()
         file = options['file']
 
         if not channel or not file:

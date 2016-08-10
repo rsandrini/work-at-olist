@@ -7,7 +7,7 @@ router.register(r'channels', ChannelViewSet, base_name='channels')
 router.register(r'categories', CategoryViewSet, base_name='categories')
 
 urlpatterns = [
-    url('^docs/', include('rest_framework_swagger.urls')),
+    url('^docs/', include('rest_framework_swagger.urls'), name='docs-index'),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', include(router.urls)),

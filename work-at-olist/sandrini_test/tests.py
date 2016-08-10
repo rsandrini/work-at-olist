@@ -17,10 +17,6 @@ class ChannelTestCase(TestCase):
         channel = Channel.objects.first()
         self.assertEqual(channel.__str__(), "Canal Test")
 
-    # def test_empty_name(self):
-    #     with self.assertRaises(ValidationError):
-    #         Channel.objects.create()
-
 
 class CategoryTestCase(TestCase):
     def setUp(self):
@@ -39,10 +35,6 @@ class CategoryTestCase(TestCase):
         category = Category.objects.get(name="test1.1")
         top_category = Category.objects.get(name="test1")
         self.assertEqual(category.top_category, top_category)
-
-    def test_empty_name(self):
-        with self.assertRaises(IntegrityError):
-            Category.objects.create()
 
 
 class ImportCommandtest(TestCase):

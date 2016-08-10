@@ -3,8 +3,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from unipath import Path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = Path(__file__).parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -49,7 +48,7 @@ ROOT_URLCONF = 'workatolist.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [BASE_DIR.child('templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -72,7 +71,7 @@ WSGI_APPLICATION = 'workatolist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR.child('db.sqlite3'),
     }
 }
 
@@ -110,17 +109,20 @@ USE_L10N = True
 USE_TZ = True
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-PROJECT_ROOT = Path(__file__).parent.parent
-
 STATIC_URL = '/static/'
-STATIC_ROOT = PROJECT_ROOT.child('static')
+STATIC_ROOT = BASE_DIR.child('static')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    PROJECT_ROOT.child('assets'),
+    BASE_DIR.child('assets'),
 )
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
